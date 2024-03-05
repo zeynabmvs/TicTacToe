@@ -91,13 +91,13 @@ export default function Game() {
 
     if (move > 0) {
       if (move === currentMove) {
-        description = "you are at move #" + move;
+        description = "You are at move #" + move;
       } else {
         description = "Go to move #" + move;
       }
     } else {
       if (move === currentMove) {
-        description = "you are at game";
+        description = "You are at game start";
       } else {
         description = "Go to game start";
       }
@@ -105,9 +105,9 @@ export default function Game() {
 
     const content =
       move === currentMove ? (
-        <span>{description}</span>
+        <span className="history-item">{description}</span>
       ) : (
-        <button onClick={() => jumpToMove(move)}>{description}</button>
+        <button className="history-item move-btn" onClick={() => jumpToMove(move)}>{description}</button>
       );
 
     return <li key={move}>{content}</li>;
@@ -124,7 +124,8 @@ export default function Game() {
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="gmae-info">
-        <ul>{moves}</ul>
+        <h2>History</h2>
+        <ul className="history-list">{moves}</ul>
       </div>
     </div>
   );
