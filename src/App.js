@@ -1,9 +1,18 @@
 import { useState } from "react";
 
 function Square({ value, onSquareClick }) {
+  let svg;
+  if (value === "X") {
+    svg = <XSvg />;
+  } else if (value === "O") {
+    svg = <OSvg />;
+  } else {
+    svg = null;
+  }
+
   return (
     <button className="square" onClick={onSquareClick}>
-      {value}
+      {svg}
     </button>
   );
 }
@@ -38,7 +47,7 @@ function Board({ xIsNext, squares, onPlay }) {
 
   return (
     <>
-      <div className="status">{status}</div>
+      <h2 className="status">{status}</h2>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleClick(1)} />
@@ -86,24 +95,31 @@ export default function Game() {
         description = "Go to move #" + move;
       }
     } else {
-      description = "Go to game start";
+      if (move === currentMove) {
+        description = "you are at game";
+      } else {
+        description = "Go to game start";
+      }
     }
 
-    const content = move === currentMove ? <span>{description}</span> : <button onClick={() => jumpToMove(move)}>{description}</button>;
+    const content =
+      move === currentMove ? (
+        <span>{description}</span>
+      ) : (
+        <button onClick={() => jumpToMove(move)}>{description}</button>
+      );
 
-    return (
-      <li key={move}>
-        {content}
-      </li>
-    );
+    return <li key={move}>{content}</li>;
   });
-
-  console.log("moves", moves);
-  console.log("currentMove", currentMove);
 
   return (
     <div className="game">
       <div className="game-board">
+        <h1 className="game-title">
+          <span className="h-word1">Tic</span>
+          <span className="h-word2"> Tac</span>
+          <span className="h-word3"> Toe</span>
+        </h1>
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="gmae-info">
@@ -132,4 +148,44 @@ function calculateWinner(squares) {
   }
 
   return null;
+}
+
+// XSvg component
+function XSvg() {
+  return (
+    <svg
+      width="70"
+      height="71"
+      viewBox="0 0 70 71"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4.20819 4.91786L65.7918 66.5014M4.20819 66.5014L65.7918 4.91786"
+        stroke="#545454"
+        strokeWidth="11.1193"
+      />
+    </svg>
+  );
+}
+
+// OSvg component
+function OSvg() {
+  return (
+    <svg
+      width="78"
+      height="78"
+      viewBox="0 0 78 78"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="39.0645"
+        cy="39.0909"
+        r="34.2522"
+        stroke="white"
+        strokeWidth="9.23754"
+      />
+    </svg>
+  );
 }
