@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Square({ value, onSquareClick }) {
+function Square({ value, onSquareClick, index }) {
   let svg;
   if (value === "X") {
     svg = <XSvg />;
@@ -10,14 +10,47 @@ function Square({ value, onSquareClick }) {
     svg = null;
   }
 
+  const winSquare = -1;
+
   return (
-    <button className="square" onClick={onSquareClick}>
+    <button className={
+      winSquare === index ? "square win-square" : "square"
+    } onClick={onSquareClick}>
       {svg}
     </button>
   );
+
 }
 
 function Board({ xIsNext, squares, onPlay }) {
+
+  function calculateWinner(squares) {
+    const winLines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0; i < winLines.length; i++) {
+      const [a, b, c] = winLines[i];
+      if (
+        squares[a] &&
+        squares[a] === squares[b] &&
+        squares[b] === squares[c]
+      ) {
+        console.log(winLines[i]);
+        return squares[a];
+      }
+    }
+
+    return null;
+  }
+
+
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
       return;
@@ -53,19 +86,24 @@ function Board({ xIsNext, squares, onPlay }) {
       row.push(
         <Square
           key={index}
-          value={squares[ index ]}
-          onSquareClick={() => handleClick( index )}
+          value={squares[index]}
+          onSquareClick={() => handleClick(index)}
+          index={index}
         />
       );
     }
 
-    rows.push(<div key={i} className="board-row" >{row}</div>);
+    rows.push(
+      <div key={i} className="board-row">
+        {row}
+      </div>
+    );
   }
 
   return (
     <>
       <h2 className="status">{status}</h2>
-      {rows}
+      <div className="board-rows">{rows}</div>
     </>
   );
 }
@@ -107,7 +145,12 @@ export default function Game() {
       move === currentMove ? (
         <span className="history-item">{description}</span>
       ) : (
-        <button className="history-item move-btn" onClick={() => jumpToMove(move)}>{description}</button>
+        <button
+          className="history-item move-btn"
+          onClick={() => jumpToMove(move)}
+        >
+          {description}
+        </button>
       );
 
     return <li key={move}>{content}</li>;
@@ -129,27 +172,6 @@ export default function Game() {
       </div>
     </div>
   );
-}
-
-function calculateWinner(squares) {
-  const winLines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < winLines.length; i++) {
-    const [a, b, c] = winLines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[b] === squares[c]) {
-      return squares[a];
-    }
-  }
-
-  return null;
 }
 
 // XSvg component
