@@ -3,7 +3,7 @@
 This is a simple Tic-Tac-Toe game built with React.js. I developed this project as a learning exercise to explore the fundamentals of React and improve my skills in building interactive web applications.
 
 ## Live Demo
-Address to live demo of project: 
+Address to live demo of project: https://tic-tac-toe-ochre-gamma.vercel.app/
 
 ## Features
 
