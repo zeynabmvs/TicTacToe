@@ -170,3 +170,11 @@ body {
 .board-rows {
   border: 2px solide var(--secondary-color);
 }
+
+.color-light {
+  color: var(--light-color);
+}
+
+.color-dark {
+  color: var(--dark-color);
+}

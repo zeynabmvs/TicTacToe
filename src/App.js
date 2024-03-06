@@ -1,22 +1,11 @@
 import { useState } from "react";
 
 function Square({ value, onSquareClick, index }) {
-  let svg;
-  if (value === "X") {
-    svg = <XSvg />;
-  } else if (value === "O") {
-    svg = <OSvg />;
-  } else {
-    svg = null;
-  }
-
-  const winSquare = -1;
 
   return (
     <button
-      className={winSquare === index ? "square win-square" : "square"}
-      onClick={onSquareClick}
-    >
+      className={value === 'X' ? "square color-dark" : "square color-light"}
+      onClick={onSquareClick}>
       {value}
     </button>
   );
@@ -175,45 +164,5 @@ export default function Game() {
         </div>
       </div>
     </>
-  );
-}
-
-// XSvg component
-function XSvg() {
-  return (
-    <svg
-      width="70"
-      height="71"
-      viewBox="0 0 70 71"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M4.20819 4.91786L65.7918 66.5014M4.20819 66.5014L65.7918 4.91786"
-        stroke="#545454"
-        strokeWidth="11.1193"
-      />
-    </svg>
-  );
-}
-
-// OSvg component
-function OSvg() {
-  return (
-    <svg
-      width="78"
-      height="78"
-      viewBox="0 0 78 78"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <circle
-        cx="39.0645"
-        cy="39.0909"
-        r="34.2522"
-        stroke="white"
-        strokeWidth="9.23754"
-      />
-    </svg>
   );
 }
