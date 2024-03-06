@@ -13,17 +13,16 @@ function Square({ value, onSquareClick, index }) {
   const winSquare = -1;
 
   return (
-    <button className={
-      winSquare === index ? "square win-square" : "square"
-    } onClick={onSquareClick}>
-      {svg}
+    <button
+      className={winSquare === index ? "square win-square" : "square"}
+      onClick={onSquareClick}
+    >
+      {value}
     </button>
   );
-
 }
 
 function Board({ xIsNext, squares, onPlay }) {
-
   function calculateWinner(squares) {
     const winLines = [
       [0, 1, 2],
@@ -49,7 +48,6 @@ function Board({ xIsNext, squares, onPlay }) {
 
     return null;
   }
-
 
   function handleClick(i) {
     if (squares[i] || calculateWinner(squares)) {
@@ -157,20 +155,26 @@ export default function Game() {
   });
 
   return (
-    <div className="game">
-      <div className="game-board">
-        <h1 className="game-title">
-          <span className="h-word1">Tic</span>
-          <span className="h-word2"> Tac</span>
-          <span className="h-word3"> Toe</span>
-        </h1>
-        <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+    <>
+      <h1 className="game-title">
+        <span className="h-word1">Tic</span>
+        <span className="h-word2"> Tac</span>
+        <span className="h-word3"> Toe</span>
+      </h1>
+      <div className="game">
+        <div className="game-board">
+          <Board
+            xIsNext={xIsNext}
+            squares={currentSquares}
+            onPlay={handlePlay}
+          />
+        </div>
+        <div className="game-info">
+          <h2>History</h2>
+          <ul className="history-list">{moves}</ul>
+        </div>
       </div>
-      <div className="gmae-info">
-        <h2>History</h2>
-        <ul className="history-list">{moves}</ul>
-      </div>
-    </div>
+    </>
   );
 }
 
